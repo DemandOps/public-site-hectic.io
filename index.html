@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hectic - DevOps has moved to the terminal</title>
+    <meta name="description" content="Error monitoring and customer support, unified. Hectic brings your production errors and support cases to Claude Code and your terminal.">
+    <meta name="keywords" content="error monitoring, customer support, Sentry alternative, Zendesk alternative, MCP, Claude Code, terminal ops">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hectic - DevOps has moved to the terminal">
+    <meta property="og:description" content="Error monitoring and customer support, unified. Query production from Claude Code.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hectic.io">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hectic - DevOps has moved to the terminal">
+    <meta name="twitter:description" content="Error monitoring and customer support, unified. Query production from Claude Code.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hectic: {
+                            50: '#f0f4ff',
+                            100: '#e0e9ff',
+                            200: '#c7d6fe',
+                            300: '#a4b8fc',
+                            400: '#8093f8',
+                            500: '#6366f1',
+                            600: '#5046e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .terminal {
+            background: linear-gradient(180deg, #1e1b4b 0%, #0f0d24 100%);
+        }
+        .glow {
+            box-shadow: 0 0 60px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-slate-950/80 backdrop-blur-md z-50 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-xl font-bold text-white">hectic</a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-slate-400 hover:text-white transition">Features</a>
+                    <a href="#how-it-works" class="text-slate-400 hover:text-white transition">How it Works</a>
+                    <a href="#pricing" class="text-slate-400 hover:text-white transition">Pricing</a>
+                    <a href="https://github.com/demandops/hectic" class="text-slate-400 hover:text-white transition">GitHub</a>
+                </div>
+                <a href="#waitlist" class="bg-hectic-600 hover:bg-hectic-500 text-white px-4 py-2 rounded-lg font-medium transition">
+                    Join Waitlist
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-block px-4 py-1.5 bg-hectic-950 border border-hectic-800 rounded-full text-hectic-400 text-sm font-medium mb-6">
+                    Source Available &middot; BSL Licensed
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                    <span class="text-white">DevOps has moved</span><br>
+                    <span class="gradient-text">to the terminal.</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-8">
+                    Hectic brings your production errors and customer support cases there.
+                    Query from Claude Code. Fix faster.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#waitlist" class="bg-hectic-600 hover:bg-hectic-500 text-white px-8 py-4 rounded-lg font-semibold text-lg transition">
+                        Join the Waitlist
+                    </a>
+                    <a href="https://github.com/demandops/hectic" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- Terminal Demo -->
+            <div class="terminal rounded-xl border border-slate-800 glow overflow-hidden max-w-4xl mx-auto">
+                <div class="flex items-center gap-2 px-4 py-3 bg-slate-900/50 border-b border-slate-800">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="ml-2 text-slate-500 text-sm font-mono">claude</span>
+                </div>
+                <div class="p-6 font-mono text-sm md:text-base leading-relaxed">
+                    <p class="text-slate-500">&gt; What errors are affecting customers today?</p>
+                    <br>
+                    <p class="text-slate-300">Found <span class="text-hectic-400">3 issues</span> linked to support cases:</p>
+                    <br>
+                    <p class="text-slate-300">1. <span class="text-red-400">PaymentError</span> in checkout.js:142</p>
+                    <p class="text-slate-500 ml-4">47 occurrences &middot; 12 users &middot; 3 open cases</p>
+                    <br>
+                    <p class="text-slate-300">2. <span class="text-yellow-400">TimeoutError</span> in api/orders.ts:89</p>
+                    <p class="text-slate-500 ml-4">23 occurrences &middot; 8 users &middot; 1 escalated case</p>
+                    <br>
+                    <p class="text-slate-300">3. <span class="text-orange-400">ValidationError</span> in forms/signup.tsx:56</p>
+                    <p class="text-slate-500 ml-4">156 occurrences &middot; 34 users &middot; 5 cases</p>
+                    <br>
+                    <p class="text-slate-500">&gt; Show me the PaymentError stack trace and affected customers<span class="animate-pulse">_</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 px-6 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Your tools don't talk to each other.</h2>
+                <p class="text-xl text-slate-400">Errors in Sentry. Tickets in Zendesk. Your AI assistant sees neither.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8">
+                    <div class="text-red-400 font-semibold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        The Old Way
+                    </div>
+                    <ol class="space-y-3 text-slate-400">
+                        <li class="flex gap-3"><span class="text-slate-600">1.</span> Error alert in Slack</li>
+                        <li class="flex gap-3"><span class="text-slate-600">2.</span> Open Sentry in browser</li>
+                        <li class="flex gap-3"><span class="text-slate-600">3.</span> Find the error, read stack trace</li>
+                        <li class="flex gap-3"><span class="text-slate-600">4.</span> Open Zendesk in another tab</li>
+                        <li class="flex gap-3"><span class="text-slate-600">5.</span> Search for related tickets</li>
+                        <li class="flex gap-3"><span class="text-slate-600">6.</span> Manually correlate</li>
+                        <li class="flex gap-3"><span class="text-slate-600">7.</span> Copy stack trace to ChatGPT</li>
+                        <li class="flex gap-3"><span class="text-slate-600">8.</span> Context switch back to IDE</li>
+                    </ol>
+                    <div class="mt-6 pt-6 border-t border-slate-800 text-slate-500">
+                        ~45 minutes &middot; 4+ context switches
+                    </div>
+                </div>
+
+                <!-- After -->
+                <div class="bg-gradient-to-br from-hectic-950 to-slate-900 rounded-xl border border-hectic-800 p-8">
+                    <div class="text-hectic-400 font-semibold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        With Hectic
+                    </div>
+                    <ol class="space-y-3 text-slate-300">
+                        <li class="flex gap-3"><span class="text-hectic-600">1.</span> Ask Claude: "What's breaking?"</li>
+                        <li class="flex gap-3"><span class="text-hectic-600">2.</span> See errors + affected customers</li>
+                        <li class="flex gap-3"><span class="text-hectic-600">3.</span> Claude helps you fix it</li>
+                        <li class="flex gap-3"><span class="text-hectic-600">4.</span> Push the fix</li>
+                    </ol>
+                    <div class="mt-6 pt-6 border-t border-hectic-900 text-hectic-400">
+                        ~10 minutes &middot; 0 context switches
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Everything you need. Nothing you don't.</h2>
+                <p class="text-xl text-slate-400">Error monitoring + support + AI integration in one platform.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Error Monitoring -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Error Monitoring</h3>
+                    <p class="text-slate-400 mb-4">Sentry SDK compatible. Drop-in replacement. Same code, better integration.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>Smart fingerprint grouping</li>
+                        <li>Full stack traces + breadcrumbs</li>
+                        <li>User impact tracking</li>
+                    </ul>
+                </div>
+
+                <!-- Support Cases -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Support Cases</h3>
+                    <p class="text-slate-400 mb-4">Multi-channel case management built for technical teams.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>Email, web forms, API</li>
+                        <li>Automation rules</li>
+                        <li>SLA tracking</li>
+                    </ul>
+                </div>
+
+                <!-- AI Integration -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">AI Integration</h3>
+                    <p class="text-slate-400 mb-4">MCP server for Claude Code. Query production from your terminal.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>List and search errors</li>
+                        <li>Query support cases</li>
+                        <li>Add notes, take actions</li>
+                    </ul>
+                </div>
+
+                <!-- Linking -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Error ↔ Case Linking</h3>
+                    <p class="text-slate-400 mb-4">The feature no one else has. See affected customers for any error.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>Link errors to cases</li>
+                        <li>Auto-notify on resolution</li>
+                        <li>Customer impact visibility</li>
+                    </ul>
+                </div>
+
+                <!-- Self-Hosting -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Self-Hostable</h3>
+                    <p class="text-slate-400 mb-4">Single Go binary. SQLite database. Runs anywhere.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>No PostgreSQL cluster</li>
+                        <li>1GB RAM minimum</li>
+                        <li>Litestream backups</li>
+                    </ul>
+                </div>
+
+                <!-- Source Available -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8 hover:border-slate-700 transition">
+                    <div class="w-12 h-12 bg-slate-500/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Source Available</h3>
+                    <p class="text-slate-400 mb-4">BSL license. Full code visibility. Converts to Apache 2.0.</p>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>Inspect the code</li>
+                        <li>Self-host free</li>
+                        <li>No vendor lock-in</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="how-it-works" class="py-20 px-6 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How it Works</h2>
+                <p class="text-xl text-slate-400">From error to resolution in your terminal.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-hectic-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                    <h3 class="font-semibold mb-2">Send Errors</h3>
+                    <p class="text-slate-400 text-sm">Point any Sentry SDK at Hectic. Same code, different DSN.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-hectic-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                    <h3 class="font-semibold mb-2">Route Support</h3>
+                    <p class="text-slate-400 text-sm">Email, web forms, or API. Cases land in Hectic.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-hectic-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                    <h3 class="font-semibold mb-2">Query from Terminal</h3>
+                    <p class="text-slate-400 text-sm">Ask Claude "what's breaking?" and get a real answer.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-hectic-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                    <h3 class="font-semibold mb-2">Fix Faster</h3>
+                    <p class="text-slate-400 text-sm">Full context. AI assistance. Push and done.</p>
+                </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="mt-16 max-w-2xl mx-auto">
+                <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                    <div class="px-4 py-3 bg-slate-800/50 border-b border-slate-800">
+                        <span class="text-slate-400 text-sm">Setup takes 2 minutes</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm">
+                        <p class="text-slate-500">// Point your Sentry SDK at Hectic</p>
+                        <p class="text-slate-300">Sentry.<span class="text-hectic-400">init</span>({</p>
+                        <p class="text-slate-300 ml-4">dsn: <span class="text-green-400">'https://key@hectic.yourcompany.com/1'</span></p>
+                        <p class="text-slate-300">});</p>
+                        <br>
+                        <p class="text-slate-500">// That's it. Errors flow to Hectic.</p>
+                        <p class="text-slate-500">// Now ask Claude about them.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How Hectic Compares</h2>
+                <p class="text-xl text-slate-400">The unified platform you've been waiting for.</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-slate-800">
+                            <th class="text-left py-4 px-4 text-slate-400 font-medium">Capability</th>
+                            <th class="text-center py-4 px-4 text-slate-400 font-medium">Sentry</th>
+                            <th class="text-center py-4 px-4 text-slate-400 font-medium">Zendesk</th>
+                            <th class="text-center py-4 px-4 text-hectic-400 font-medium">Hectic</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-800/50">
+                            <td class="py-4 px-4">Error monitoring</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="py-4 px-4">Support ticketing</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="py-4 px-4">Error ↔ Case linking</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="py-4 px-4">AI/MCP integration</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="py-4 px-4">Self-hostable</td>
+                            <td class="text-center py-4 px-4 text-yellow-400">Limited</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4">Single binary deploy</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-slate-600">No</td>
+                            <td class="text-center py-4 px-4 text-green-400">Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 px-6 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Simple Pricing</h2>
+                <p class="text-xl text-slate-400">Self-host free. Let us manage it when you're ready.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Community -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8">
+                    <h3 class="text-xl font-semibold mb-2">Community</h3>
+                    <div class="text-3xl font-bold mb-4">Free<span class="text-lg font-normal text-slate-400"> forever</span></div>
+                    <p class="text-slate-400 mb-6">Self-hosted, full features.</p>
+                    <ul class="space-y-3 text-sm text-slate-400 mb-8">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Full error monitoring
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Full support cases
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            MCP integration
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Community support
+                        </li>
+                    </ul>
+                    <a href="#waitlist" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg font-medium transition">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Team -->
+                <div class="bg-gradient-to-br from-hectic-950 to-slate-900 rounded-xl border border-hectic-700 p-8 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-hectic-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                        Coming Soon
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Team</h3>
+                    <div class="text-3xl font-bold mb-4">$29<span class="text-lg font-normal text-slate-400">/seat/mo</span></div>
+                    <p class="text-slate-400 mb-6">Managed hosting. We handle ops.</p>
+                    <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-hectic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Everything in Community
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-hectic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Managed infrastructure
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-hectic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Email support
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-hectic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            30-day retention
+                        </li>
+                    </ul>
+                    <a href="#waitlist" class="block w-full text-center bg-hectic-600 hover:bg-hectic-500 text-white py-3 rounded-lg font-medium transition">
+                        Join Waitlist
+                    </a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="bg-slate-900 rounded-xl border border-slate-800 p-8">
+                    <h3 class="text-xl font-semibold mb-2">Enterprise</h3>
+                    <div class="text-3xl font-bold mb-4">Custom</div>
+                    <p class="text-slate-400 mb-6">Dedicated instance. Full support.</p>
+                    <ul class="space-y-3 text-sm text-slate-400 mb-8">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Everything in Team
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            SSO/SAML
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Dedicated instance
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            24/7 support + SLA
+                        </li>
+                    </ul>
+                    <a href="mailto:hello@hectic.io" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg font-medium transition">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist -->
+    <section id="waitlist" class="py-20 px-6">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Get Early Access</h2>
+            <p class="text-xl text-slate-400 mb-8">Be the first to know when Hectic launches publicly.</p>
+
+            <form action="https://buttondown.email/api/emails/embed-subscribe/hectic" method="post" target="popupwindow" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" name="email" placeholder="you@company.com" required class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-hectic-500">
+                <button type="submit" class="bg-hectic-600 hover:bg-hectic-500 text-white px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap">
+                    Join Waitlist
+                </button>
+            </form>
+            <p class="text-slate-500 text-sm mt-4">No spam. Just launch updates.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl font-bold">hectic</span>
+                    <span class="text-slate-600">|</span>
+                    <span class="text-slate-400 text-sm">by <a href="https://demandops.com" class="hover:text-white transition">DemandOps</a></span>
+                </div>
+                <div class="flex items-center gap-6 text-slate-400">
+                    <a href="https://github.com/demandops/hectic" class="hover:text-white transition">GitHub</a>
+                    <a href="mailto:hello@hectic.io" class="hover:text-white transition">Contact</a>
+                    <a href="#" class="hover:text-white transition">Privacy</a>
+                    <a href="#" class="hover:text-white transition">Terms</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-slate-600 text-sm">
+                Source available under the Business Source License (BSL 1.1)
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
